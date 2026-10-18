@@ -10,4 +10,6 @@ public interface GroupeCandidatureRepository
         extends JpaRepository<GroupeCandidature, Long> {
 
     List<GroupeCandidature> findByCampagneId(Long campagneId);
+
+    List<GroupeCandidature> findByMembresId(Long etudiantId);
 }

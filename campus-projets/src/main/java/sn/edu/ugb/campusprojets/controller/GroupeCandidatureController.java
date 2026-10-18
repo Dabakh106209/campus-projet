@@ -50,7 +50,9 @@ public class GroupeCandidatureController {
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     public GroupeResponse creer(@RequestBody GroupeRequest request) {
-        if (request.type() == null || request.campagneId() == null
+
+        if (request.type() == null
+                || request.campagneId() == null
                 || request.etudiantIds() == null) {
             throw new IllegalArgumentException(
                     "Le type, la campagne et les étudiants sont obligatoires.");
@@ -73,12 +75,14 @@ public class GroupeCandidatureController {
                     "Un étudiant ne peut pas apparaître deux fois dans le groupe.");
         }
 
-        Campagne campagne = campagneRepository.findById(request.campagneId())
+        Campagne campagne = campagneRepository
+                .findById(request.campagneId())
                 .orElseThrow(() ->
                         new IllegalArgumentException("Campagne introuvable."));
 
         if (!Boolean.TRUE.equals(campagne.getActive())) {
-            throw new IllegalArgumentException("La campagne n'est pas active.");
+            throw new IllegalArgumentException(
+                    "La campagne n'est pas active.");
         }
 
         List<Utilisateur> membres = request.etudiantIds().stream()
@@ -112,12 +116,15 @@ public class GroupeCandidatureController {
     @Transactional(readOnly = true)
     public List<GroupeResponse> lister() {
         return groupeRepository.findAll()
-                .stream().map(this::convertir).toList();
+                .stream()
+                .map(this::convertir)
+                .toList();
     }
 
     @GetMapping("/{id}")
     @Transactional(readOnly = true)
     public GroupeResponse consulter(@PathVariable Long id) {
+
         GroupeCandidature groupe = groupeRepository.findById(id)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Groupe introuvable."));
@@ -129,8 +136,32 @@ public class GroupeCandidatureController {
     @Transactional(readOnly = true)
     public List<GroupeResponse> listerParCampagne(
             @PathVariable Long campagneId) {
+
         return groupeRepository.findByCampagneId(campagneId)
-                .stream().map(this::convertir).toList();
+                .stream()
+                .map(this::convertir)
+                .toList();
+    }
+
+    // Nouvelle route : rechercher les groupes d'un étudiant
+    @GetMapping("/etudiant/{etudiantId}")
+    @Transactional(readOnly = true)
+    public List<GroupeResponse> listerParEtudiant(
+            @PathVariable Long etudiantId) {
+
+        Utilisateur etudiant = utilisateurRepository.findById(etudiantId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Étudiant introuvable."));
+
+        if (etudiant.getRole() != RoleUtilisateur.ETUDIANT) {
+            throw new IllegalArgumentException(
+                    "Cet utilisateur n'est pas un étudiant.");
+        }
+
+        return groupeRepository.findByMembresId(etudiantId)
+                .stream()
+                .map(this::convertir)
+                .toList();
     }
 
     private GroupeResponse convertir(GroupeCandidature groupe) {
@@ -138,7 +169,8 @@ public class GroupeCandidatureController {
                 groupe.getId(),
                 groupe.getType(),
                 groupe.getCampagne().getId(),
-                groupe.getMembres().stream()
+                groupe.getMembres()
+                        .stream()
                         .map(Utilisateur::getId)
                         .toList());
     }
