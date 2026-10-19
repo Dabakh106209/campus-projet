@@ -1,0 +1,233 @@
+
+<section class="page-content">
+
+  <div class="welcome-row">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        ESPACE ENSEIGNANT
+      </div>
+
+      <h1>Mes sujets</h1>
+
+      <p class="page-description">
+        Gérez vos projets tutorés et suivez les candidatures des étudiants.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="proposerSujet()">
+      <i class="bi bi-plus-lg"></i>
+      Proposer un sujet
+    </button>
+  </div>
+
+  <!-- Statistiques -->
+  <div class="stats-grid">
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon blue-icon">
+          <i class="bi bi-journal-bookmark"></i>
+        </div>
+        <span class="stat-label">Tous mes sujets</span>
+      </div>
+
+      <div class="stat-value">{{ sujets.length }}</div>
+      <div class="stat-footer">Sujets enregistrés</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon green-icon">
+          <i class="bi bi-check-circle"></i>
+        </div>
+        <span class="stat-label">Sujets disponibles</span>
+      </div>
+
+      <div class="stat-value">{{ sujetsDisponibles }}</div>
+      <div class="stat-footer">Ouverts aux candidatures</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon orange-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <span class="stat-label">Capacité totale</span>
+      </div>
+
+      <div class="stat-value">{{ capaciteTotale }}</div>
+      <div class="stat-footer">Places prévues sur mes sujets</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon purple-icon">
+          <i class="bi bi-pause-circle"></i>
+        </div>
+        <span class="stat-label">Sujets indisponibles</span>
+      </div>
+
+      <div class="stat-value">{{ sujetsIndisponibles }}</div>
+      <div class="stat-footer">Non ouverts aux candidatures</div>
+    </article>
+
+  </div>
+
+  <!-- Liste des sujets -->
+  <section class="subjects-panel">
+
+    <div class="panel-header">
+      <div>
+        <h2>Liste de mes sujets</h2>
+        <p>Retrouvez et gérez tous vos sujets de projets tutorés.</p>
+      </div>
+
+      <label class="subject-search">
+        <i class="bi bi-search"></i>
+
+        <input
+          type="search"
+          [(ngModel)]="searchText"
+          placeholder="Rechercher un sujet..."
+          aria-label="Rechercher un sujet">
+      </label>
+    </div>
+
+    <!-- Chargement -->
+    @if (chargement) {
+      <div class="alert alert-info m-3">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Chargement de vos sujets...
+      </div>
+    }
+
+    <!-- Erreur -->
+    @if (erreur) {
+      <div class="alert alert-danger m-3">
+        {{ erreur }}
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger ms-2"
+          (click)="chargerSujets()">
+          Réessayer
+        </button>
+      </div>
+    }
+
+    @if (!chargement && !erreur) {
+      <div class="table-responsive">
+        <table class="subjects-table">
+
+          <thead>
+            <tr>
+              <th>SUJET</th>
+              <th>CAPACITÉ</th>
+              <th>STATUT</th>
+              <th class="text-end">ACTIONS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (sujet of sujetsFiltres; track sujet.id) {
+              <tr>
+                <td>
+                  <div class="subject-cell">
+                    <div class="subject-icon">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div class="subject-info">
+                      <strong>{{ sujet.titre }}</strong>
+                      <span>{{ sujet.domaine || 'Domaine non précisé' }}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="application-count">
+                    <i class="bi bi-people"></i>
+                    {{ sujet.capaciteMax }} place(s)
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="status-badge"
+                    [class.status-published]="sujet.statut === 'DISPONIBLE'"
+                    [class.status-draft]="sujet.statut === 'INDISPONIBLE'"
+                    [class.status-archived]="sujet.statut === 'ARCHIVE'">
+
+                    <span class="status-dot"></span>
+                    {{ sujet.statut }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="action-buttons">
+                    <button
+                      type="button"
+                      class="table-action"
+                      title="Consulter"
+                      aria-label="Consulter"
+                       (click)="voirCandidatures(sujet.id)">
+                      <i class="bi bi-eye"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="table-action"
+                      title="Modifier"
+                      aria-label="Modifier"
+                      (click)="modifierSujet(sujet.id)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="table-action delete-action"
+                      title="Supprimer"
+                      aria-label="Supprimer"
+                      (click)="supprimerSujet(sujet.id)">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="empty-state">
+                  Aucun sujet trouvé.
+                </td>
+              </tr>
+            }
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span>
+          {{ sujetsFiltres.length }} sujet(s) affiché(s)
+          sur {{ sujets.length }}
+        </span>
+
+        <span class="demo-label">
+          <i class="bi bi-cloud-check"></i>
+          Données du serveur
+        </span>
+      </div>
+    }
+
+  </section>
+
+  <footer class="page-footer">
+    <span>© 2026 Campus Projects</span>
+    <span>Une plateforme au service de la réussite académique.</span>
+  </footer>
+
+</section>

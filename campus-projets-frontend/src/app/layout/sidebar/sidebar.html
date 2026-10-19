@@ -1,0 +1,75 @@
+
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <i class="bi bi-mortarboard-fill"></i>
+    </div>
+    <div>
+      <h2>Campus<span>Projects</span></h2>
+      <small>Gestion des projets tutorés</small>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="avatar">
+      {{ role === 'enseignant' ? 'EN' : 'RP' }}
+    </div>
+    <div class="profile-info">
+      <strong>
+        {{ role === 'enseignant' ? 'Espace enseignant' : 'Espace responsable pédagogique' }}
+      </strong>
+      <small>Gestion académique</small>
+    </div>
+  </div>
+
+  <div class="menu-label">MENU PRINCIPAL</div>
+
+  <nav class="sidebar-nav">
+
+    @if (role === 'enseignant') {
+      <a routerLink="/enseignant/sujets"
+         routerLinkActive="active"
+         class="nav-item">
+        <i class="bi bi-journal-text"></i>
+        <span>Mes sujets</span>
+      </a>
+
+      <a routerLink="/enseignant/sujets"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }"
+         class="nav-item">
+        <i class="bi bi-people"></i>
+        <span>Mes sujets et candidatures</span>
+      </a>
+    } @else {
+      <a routerLink="/responsable/candidatures"
+         routerLinkActive="active"
+         class="nav-item">
+        <i class="bi bi-clipboard-check"></i>
+        <span>Gestion des candidatures</span>
+      </a>
+
+      <a routerLink="/responsable/affectations"
+         routerLinkActive="active"
+         class="nav-item">
+        <i class="bi bi-mortarboard"></i>
+        <span>Affectations</span>
+      </a>
+    }
+
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="help-card">
+      <i class="bi bi-question-circle"></i>
+      <strong>Besoin d'aide ?</strong>
+      <p>Consultez le guide d'utilisation de la plateforme.</p>
+    </div>
+
+    <div class="sidebar-footer">
+      © 2026 Campus Projects
+    </div>
+  </div>
+
+</aside>

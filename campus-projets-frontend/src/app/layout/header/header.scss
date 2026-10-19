@@ -1,0 +1,166 @@
+:host {
+  display: block;
+}
+
+.topbar {
+  min-height: 78px;
+  background: #fff;
+  border-bottom: 1px solid #e9eef5;
+  padding: 15px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #8794a8;
+}
+
+.breadcrumb i {
+  font-size: 10px;
+}
+
+.breadcrumb strong {
+  color: #1b2d48;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+}
+
+.search-box {
+  width: 255px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #f7f9fc;
+  border: 1px solid #e7ecf3;
+  border-radius: 8px;
+  padding: 0 10px;
+  color: #8997aa;
+}
+
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #263750;
+  font-size: 11px;
+}
+
+.icon-button {
+  position: relative;
+  border: 1px solid #e8edf4;
+  background: #fff;
+  color: #52637b;
+  border-radius: 9px;
+  width: 39px;
+  height: 39px;
+  font-size: 17px;
+}
+
+.notification-dot {
+  position: absolute;
+  right: 9px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: #ed6c6c;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+.topbar-divider {
+  height: 35px;
+  border-left: 1px solid #e7ebf1;
+}
+
+.user-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #dcecff;
+  color: #1755a1;
+  display: grid;
+  place-items: center;
+  font-weight: 750;
+  font-size: 12px;
+}
+
+.avatar-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.user-mini-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-mini-info strong {
+  font-size: 11px;
+}
+
+.user-mini-info small {
+  color: #8c99ac;
+  font-size: 10px;
+}
+
+.user-mini > i {
+  color: #8190a5;
+  font-size: 11px;
+}
+
+@media (max-width: 850px) {
+  .topbar {
+    padding: 14px 18px;
+  }
+
+  .topbar-actions {
+    gap: 10px;
+  }
+
+  .user-mini-info,
+  .user-mini > i,
+  .topbar-divider {
+    display: none;
+  }
+
+  .search-box {
+    width: min(220px, 34vw);
+  }
+}
+
+@media (max-width: 560px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topbar-actions {
+    width: 100%;
+  }
+
+  .search-box {
+    flex: 1;
+    width: auto;
+  }
+}

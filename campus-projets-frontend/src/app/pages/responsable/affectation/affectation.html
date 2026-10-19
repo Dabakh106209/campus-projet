@@ -1,0 +1,57 @@
+
+<div class="page-affectations">
+  <div class="page-entete">
+    <div>
+      <h2>Gestion des affectations</h2>
+      <p>Consultez les affectations enregistrées.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-actualiser"
+      (click)="chargerAffectations()"
+      [disabled]="chargement">
+      {{ chargement ? 'Chargement...' : 'Actualiser' }}
+    </button>
+  </div>
+
+  <p *ngIf="chargement" class="message">
+    Chargement des affectations...
+  </p>
+
+  <p *ngIf="erreur" class="message erreur">
+    {{ erreur }}
+  </p>
+
+  <div class="table-container" *ngIf="!chargement && !erreur">
+    <table>
+      <thead>
+        <tr>
+          <th>ID candidature</th>
+          <th>ID responsable</th>
+          <th>Date d'affectation</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let affectation of affectations">
+          <td>{{ affectation.candidatureId }}</td>
+          <td>{{ affectation.responsableId }}</td>
+          <td>
+            {{ affectation.dateAffectation | date:'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td>
+            <span class="badge-statut">{{ affectation.statut }}</span>
+          </td>
+        </tr>
+
+        <tr *ngIf="affectations.length === 0">
+          <td colspan="5" class="vide">
+            Aucune affectation enregistrée.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

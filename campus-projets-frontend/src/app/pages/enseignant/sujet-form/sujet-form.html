@@ -1,0 +1,162 @@
+
+<div class="form-page">
+  <div class="page-heading">
+    <div>
+      <a routerLink="/enseignant/sujets" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Retour aux sujets
+      </a>
+      <h1>Proposer un sujet</h1>
+      <p>Renseignez les informations du projet proposé aux étudiants.</p>
+    </div>
+  </div>
+
+  @if (chargementSujet) {
+  <div class="alert alert-info">
+    Chargement du sujet...
+  </div>
+}
+  <form
+  #formSujet="ngForm"
+  (ngSubmit)="enregistrerSujet(formSujet)"
+  class="subject-form"
+  [hidden]="chargementSujet"
+>
+    <div class="form-section">
+        @if (erreur) {
+  <div class="alert alert-danger mx-4 mt-3" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ erreur }}
+  </div>
+}
+      <h2>Informations générales</h2>
+      <p class="section-description">Présentez clairement le projet proposé.</p>
+
+      <div class="mb-3">
+        <label for="titre" class="form-label">Titre du sujet *</label>
+        <input
+          id="titre"
+          name="titre"
+          type="text"
+          class="form-control"
+          [(ngModel)]="sujet.titre"
+          required
+          minlength="5"
+          placeholder="Ex. : Plateforme de gestion des projets tutorés"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description *</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          [(ngModel)]="sujet.description"
+          required
+          minlength="20"
+          rows="5"
+          placeholder="Décrivez le contexte, le problème et les objectifs du projet..."
+        ></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="categorie" class="form-label">Domaine *</label>
+          <select
+            id="categorie"
+            name="categorie"
+            class="form-select"
+            [(ngModel)]="sujet.categorie"
+            required
+          >
+            <option value="">Choisir un domaine</option>
+            <option value="Développement Web">Développement Web</option>
+            <option value="Développement mobile">Développement mobile</option>
+            <option value="Intelligence artificielle">Intelligence artificielle</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Systèmes d'information">Systèmes d'information</option>
+            <option value="Réseaux">Réseaux</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        
+        <div class="col-md-6 mb-3">
+          <label for="statut" class="form-label">Statut du sujet *</label>
+
+          <select
+            id="statut"
+            name="statut"
+            class="form-select"
+            [(ngModel)]="statutSujet"
+            required
+          >
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="INDISPONIBLE">Indisponible</option>
+            <option value="ARCHIVE">Archivé</option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="capacite" class="form-label">Nombre maximal d'étudiants *</label>
+          <input
+            id="capacite"
+            name="capacite"
+            type="number"
+            class="form-control"
+            [(ngModel)]="sujet.capacite"
+            required
+            min="1"
+            max="10"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="competences" class="form-label">Compétences requises</label>
+        <input
+          id="competences"
+          name="competences"
+          type="text"
+          class="form-control"
+          [(ngModel)]="sujet.competences"
+          placeholder="Ex. : Angular, Java, SQL"
+        />
+        <small class="text-muted">Séparez les compétences par des virgules.</small>
+      </div>
+
+      <div class="mb-3">
+        <label for="dateLimite" class="form-label">Date limite de candidature *</label>
+        <input
+          id="dateLimite"
+          name="dateLimite"
+          type="date"
+          class="form-control"
+          [(ngModel)]="sujet.dateLimite"
+          [min]="dateMinimale"
+           [required]="!modeModification"
+        />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/enseignant/sujets" class="btn btn-light">
+        Annuler
+      </a>
+      <button
+  type="submit"
+  class="btn btn-primary"
+  [disabled]="enregistrementEnCours"
+>
+  @if (enregistrementEnCours) {
+    <span class="spinner-border spinner-border-sm me-2"></span>
+    Enregistrement...
+  } @else {
+    <i class="bi bi-check-lg"></i>
+    Enregistrer
+  }
+</button>
+    </div>
+  </form>
+</div>

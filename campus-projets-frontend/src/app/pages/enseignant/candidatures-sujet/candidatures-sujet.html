@@ -1,0 +1,75 @@
+
+<div class="candidatures-page">
+  <div class="page-heading">
+    <div>
+      <a routerLink="/enseignant/sujets" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Retour aux sujets
+      </a>
+
+      <h1>Candidatures du sujet</h1>
+      <p>Consultez les groupes ayant candidaté à ce sujet.</p>
+    </div>
+  </div>
+
+  @if (chargement) {
+    <div class="alert alert-info">
+      Chargement des candidatures...
+    </div>
+  } @else if (erreur) {
+    <div class="alert alert-danger">
+      {{ erreur }}
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-danger ms-2"
+        (click)="chargerCandidatures()"
+      >
+        Réessayer
+      </button>
+    </div>
+  } @else if (candidatures.length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-inbox"></i>
+      <h2>Aucune candidature</h2>
+      <p>Aucun groupe n'a encore candidaté à ce sujet.</p>
+    </div>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Groupe</th>
+            <th>Ordre de préférence</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (candidature of candidatures; track candidature.id) {
+            <tr>
+              <td>#{{ candidature.id }}</td>
+              <td>Groupe {{ candidature.groupeId }}</td>
+              <td>{{ candidature.ordrePreference }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'text-bg-warning':
+                      candidature.statut === 'EN_ATTENTE',
+                    'text-bg-success':
+                      candidature.statut === 'ACCEPTEE',
+                    'text-bg-danger':
+                      candidature.statut === 'REJETEE'
+                  }"
+                >
+                  {{ candidature.statut }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

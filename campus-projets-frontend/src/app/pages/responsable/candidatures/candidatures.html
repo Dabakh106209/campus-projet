@@ -1,0 +1,85 @@
+
+<section class="candidatures-page">
+  <div class="page-heading">
+    <div>
+      <h1>Gestion des candidatures</h1>
+      <p>Consultez les candidatures et prenez une décision.</p>
+    </div>
+    <div class="total-card">
+      <span>Total des candidatures</span>
+      <strong>{{ candidatures.length }}</strong>
+    </div>
+  </div>
+
+  @if (chargement) {
+    <p class="info-message">Chargement des candidatures...</p>
+  }
+
+  @if (erreur) {
+    <div class="error-message">{{ erreur }}</div>
+  }
+
+  @if (message) {
+    <div class="success-message">{{ message }}</div>
+  }
+
+  @if (!chargement && !erreur && candidatures.length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-inbox"></i>
+      <h3>Aucune candidature</h3>
+      <p>Les candidatures apparaîtront ici lorsqu'elles seront enregistrées.</p>
+    </div>
+  }
+
+  @if (!chargement && candidatures.length > 0) {
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            
+            <th>Groupe</th>
+            <th>Sujet</th>
+            <th>Préférence</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of candidatures; track c.id) {
+            <tr>
+              
+              <td>{{ c.groupeId }}</td>
+              <td>{{ c.sujetId }}</td>
+              <td>{{ c.ordrePreference }}</td>
+              <td>
+                <span class="status" [ngClass]="'status-' + c.statut.toLowerCase()">
+                  {{ c.statut }}
+                </span>
+              </td>
+              <td>
+                @if (c.statut === 'EN_ATTENTE') {
+                  <div class="actions">
+                    <button
+                      class="btn-accept"
+                      [disabled]="candidatureEnCours === c.id"
+                      (click)="changerStatut(c, 'ACCEPTEE')">
+                      Accepter
+                    </button>
+                    <button
+                      class="btn-reject"
+                      [disabled]="candidatureEnCours === c.id"
+                      (click)="changerStatut(c, 'REJETEE')">
+                      Rejeter
+                    </button>
+                  </div>
+                } @else {
+                  <span class="no-action">Décision prise</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -1,0 +1,86 @@
+
+.page-affectations {
+  padding: 24px;
+  color: #1e293b;
+}
+
+.page-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-entete h2 {
+  margin: 0 0 8px;
+  color: #1d4ed8;
+}
+
+.page-entete p {
+  margin: 0;
+  color: #64748b;
+}
+
+.btn-actualiser {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-actualiser:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.badge-statut {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.message {
+  margin: 16px 0;
+  color: #475569;
+}
+
+.erreur {
+  color: #dc2626;
+}
+
+.vide {
+  padding: 30px;
+  text-align: center;
+  color: #64748b;
+}

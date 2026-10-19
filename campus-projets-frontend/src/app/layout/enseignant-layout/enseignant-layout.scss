@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.enseignant-layout {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+app-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 258px;
+  z-index: 10;
+}
+
+.main-content {
+  margin-left: 258px;
+  min-height: 100vh;
+  min-width: 0;
+}
+
+.page-container {
+  padding: 0;
+  min-width: 0;
+}
+
+@media (max-width: 1250px) {
+  app-sidebar {
+    width: 225px;
+  }
+
+  .main-content {
+    margin-left: 225px;
+  }
+}
+
+@media (max-width: 850px) {
+  app-sidebar {
+    width: 72px;
+  }
+
+  .main-content {
+    margin-left: 72px;
+  }
+}
